@@ -49,17 +49,18 @@ const DaySelector = ({ onChange }) => (
     {({ loading, error, data }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
-
+      const options = data.days.map(day => (
+            <option key={day.startTimestamp} value={day.startTimestamp}>
+              {moment.unix(day.startTimestamp).format('MMMM Do YYYY')}
+            </option>
+          ))
+      options.unshift(<option selected="true" disabled="disabled">Choose Date</option>)
       return (
         <select
           name="day"
           onChange={e => onChange(e.target.value)}
         >
-          {data.days.map(day => (
-            <option key={day.startTimestamp} value={day.startTimestamp}>
-              {moment.unix(day.startTimestamp).format('MMMM Do YYYY')}
-            </option>
-          ))}
+          {options}
         </select>
       );
     }}
@@ -71,19 +72,21 @@ const VenueSelector = ({ onChange }) => (
     {({ loading, error, data }) => {
       if (loading) return 'Loading data';
       if (error) return `Error: ${error.message}!`;
-
-      return (
+      const options = data.venues.map(venue => (
+            <option key={venue.id} value={venue.id}>
+              {venue.name}
+            </option>
+          ))
+      options.unshift(<option selected="true" disabled="disabled">Choose Venue</option>)
+      const d = (
         <select
           name="venue"
           onChange={ e => onChange(e.target.value)}
         >
-          {data.venues.map(venue => (
-            <option key={venue.id} value={venue.id}>
-              {venue.name}
-            </option>
-          ))}
+          {options}
         </select>
       );
+      return d;
     }}
   </Query>
 );
