@@ -106,7 +106,14 @@ export default class HomePage extends React.Component {
             <p>
               { loading && 'Generating the report...' }
               { error && `Error: ${error.message}!` }
-              { data && data.sendReport.success && `Report sent successfully`}
+              { data && data.sendReport.success &&
+                  <div>
+                    Report sent successfully:
+                      <a href={data.sendReport.msg}>
+                        click to view
+                      </a>
+                  </div>
+              }
               { data && !data.sendReport.success && `Failed to send report: ${data.sendReport.msg}`}
 
               <p>
